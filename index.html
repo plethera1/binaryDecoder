@@ -1,5 +1,140 @@
 <HTML>
+<HEAD> 
+    <script language="javascript">
+    
+        var letterToBinary = 
+            {
+                "a": "00001",
+                "b": "00010",
+                "c": "00011",
+                "d": "00100",
+                "e": "00101",
+                "f": "00110",
+                "g": "00111",
+                "h": "01000",
+                "i": "01001",
+                "j": "01010",
+                "k": "01011",
+                "l": "01100",
+                "m": "01101",
+                "n": "01110",
+                "o": "01111",
+                "p": "10000",
+                "q": "10001",
+                "r": "10010",
+                "s": "10011",
+                "t": "10100",
+                "u": "10101",
+                "v": "10110",
+                "w": "10111",
+                "x": "11000",
+                "y": "11001",
+                "z": "11010"
+            }
+        
+            var binaryToLetter = 
+            {
+                "00001": "a",
+                "00010": "b",
+                "00011": "c",
+                "00100": "d",
+                "00101": "e",
+                "00110": "f",
+                "00111": "g",
+                "01000": "h",
+                "01001": "i",
+                "01010": "j",
+                "01011": "k",
+                "01100": "l",
+                "01101": "m",
+                "01110": "n",
+                "01111": "o",
+                "10000": "p",
+                "10001": "q",
+                "10010": "r",
+                "10011": "s",
+                "10100": "t",
+                "10101": "u",
+                "10110": "v",
+                "10111": "w",
+                "11000": "x",
+                "11001": "y",
+                "11010": "z"
+            }
+        function encode() {
+            var txtToEncode = document.getElementById("txtToEncode").value
+            var encodedText = ""
+            for (var i = 0; i < txtToEncode.length; i++) {
+                var currentChar = txtToEncode.charAt(i);
+                var isUpperCase = /[A-Z]/.test(currentChar);
+                var convertedChar = letterToBinary[currentChar.toLowerCase()];
+                if (isUpperCase) encodedText += "^";
+                if (currentChar === "0" || currentChar === "1") currentChar = "~" + currentChar;
+                encodedText += (convertedChar ? convertedChar : currentChar);
+            }
+            document.getElementById("encodedText").value = encodedText
+        }
+
+        function decode() {
+            var txtToDecode = document.getElementById("txtToDecode").value
+            var decodedText = '';
+
+            var idx = 0;
+            var nextCharCapital = false;
+            while (idx < txtToDecode.length) {
+                if (txtToDecode.charAt(idx) === '^') {
+                    nextCharCapital = true;
+                    idx++;
+                } else if (txtToDecode.charAt(idx) === '~') {
+                    decodedText += txtToDecode.charAt(idx + 1);
+                    idx += 2;
+                } else if(txtToDecode.charAt(idx) !== '0' && txtToDecode.charAt(idx) !== '1') {
+                    decodedText += txtToDecode.charAt(idx);
+                    idx ++;
+                } else {
+                    var binaryLetter = txtToDecode.substring(idx, idx + 5)
+                    decodedText += nextCharCapital ? binaryToLetter[binaryLetter].toUpperCase() : binaryToLetter[binaryLetter];
+                    nextCharCapital = false;
+                    idx += 5;
+                }
+            }
+     
+            document.getElementById("decodedText").value = decodedText;
+        }
+
+        
+    </script>
+</HEAD>
 <BODY>
-   HELLO WORLD!!
+    Message to Encode:
+    <BR>
+    <BR>
+   <textarea id="txtToEncode" rows="10" cols="75"></textarea>
+   <BR>
+    <BR>
+    <button onClick="encode()">Submit</button>
+<BR>
+    <BR>
+    Encoded Message:
+    <BR>
+    <BR>
+    <textarea id="encodedText" rows="10" cols="75" readonly></textarea>
+    <BR>
+    <BR>
+    <HR>
+    <HR>
+    Message to Decode:
+    <BR>
+    <BR>
+   <textarea id="txtToDecode" rows="10" cols="75"></textarea>
+   <BR>
+    <BR>
+    <button onClick="decode()">Submit</button>
+    <BR>
+    <BR>
+    Decoded Message:
+    <BR>
+    <BR>
+    <textarea id="decodedText" rows="10" cols="75" readonly></textarea>
 </BODY>
 </HTML>
