@@ -75,7 +75,7 @@
             document.getElementById("encodedText").value = encodedText
         }
 
-        function decode() {
+        function decode2() {
             var txtToDecode = document.getElementById("txtToDecode").value
             var decodedText = '';
 
@@ -102,7 +102,21 @@
             document.getElementById("decodedText").value = decodedText;
         }
 
+        function clearField(field) {
+            document.getElementById(field).value = '';
+        }
         
+        function copyFieldToClipboard(field) {
+            /* Get the text field */
+            var copyText = document.getElementById(field);
+
+            /* Select the text field */
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+            /* Copy the text inside the text field */
+            document.execCommand("copy");
+        }
     </script>
 </HEAD>
 <BODY>
@@ -113,12 +127,16 @@
    <BR>
     <BR>
     <button onClick="encode()">Submit</button>
-<BR>
+    <button onClick="clearField('txtToEncode')">Clear</button>
+    <BR>
     <BR>
     Encoded Message:
     <BR>
     <BR>
     <textarea id="encodedText" rows="10" cols="75" readonly></textarea>
+    <BR>
+    <BR>
+    <button onClick="copyFieldToClipboard('encodedText')">Copy to Clipboard</button>
     <BR>
     <BR>
     <HR>
@@ -129,12 +147,16 @@
    <textarea id="txtToDecode" rows="10" cols="75"></textarea>
    <BR>
     <BR>
-    <button onClick="decode()">Submit</button>
+    <button onClick="decode2()">Submit</button>
+    <button onClick="clearField('txtToDecode')">Clear</button>
     <BR>
     <BR>
     Decoded Message:
     <BR>
     <BR>
     <textarea id="decodedText" rows="10" cols="75" readonly></textarea>
+    <BR>
+    <BR>
+    <button onClick="copyFieldToClipboard('decodedText')">Copy to Clipboard</button>
 </BODY>
 </HTML>
